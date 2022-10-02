@@ -1,13 +1,36 @@
+using System.Text;
+using APIDiaristas.Api;
 using APIDiaristas.Api.Extensions;
 using APIDiaristas.Data.Contexts;
+using APIDiaristas.Data.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 // Add services to the container.
 
 builder.Services.AddCustomHandlers();
 builder.Services.AddCustomRepositories();
+
+builder.Services.AddTransient<TokenService>();
 
 // Connecting to the database
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -32,6 +55,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

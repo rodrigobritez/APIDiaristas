@@ -20,11 +20,9 @@ public class DayWorkerMapping : BaseEntityMap<DayWorker>
     // Entity properties
     builder.Property(x => x.Name).HasColumnType("varchar(60)").HasColumnName("name").IsRequired();
     builder.Property(x => x.Email).HasColumnType("varchar(100)").HasColumnName("email").IsRequired();
-    builder.Property(x => x.Region).HasColumnType("varchar(100)").HasColumnName("region").IsRequired();
     builder.Property(x => x.CPF).HasColumnType("varchar(14)").HasColumnName("cpf").IsRequired();
     builder.Property(x => x.RG).HasColumnType("varchar(15)").HasColumnName("rg").IsRequired();
     builder.Property(x => x.TotalStars).HasColumnType("smallint").HasColumnName("total_stars");
-    builder.Property(x => x.ServiceValue).HasColumnType("decimal").HasColumnName("service_value").IsRequired();
     builder.Property(x => x.Active).HasColumnType("boolean").HasColumnName("active").IsRequired();
 
     // indexes
