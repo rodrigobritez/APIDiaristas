@@ -7,7 +7,7 @@ using Telluria.Utils.Crud.Handlers;
 namespace APIDiaristas.Domain.Interfaces.Handlers;
 
 public interface IDayWorkerHandler : IBaseCrudCommandHandler<DayWorker, DayWorkerValidator, IDayWorkerRepository>,
-    ICommandHandler<LoginCommand, string>
+    ICommandHandler<LoginCommand, string>, ICommandHandler<GetPostCodeCommand, IEnumerable<DayWorker>>
 {
   
 }
